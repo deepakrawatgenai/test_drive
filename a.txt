@@ -1,0 +1,115 @@
+
+### 🚀 **Prompt for Vibe Coding Tool**
+
+**Goal:**
+Develop an **Agentic AI car sales assistant** for **Toyota Automobiles (North America)** using **LangChain,openai llm, Serper API, and Streamlit**, integrated with a **SQLite database** and **intelligent memory-based conversation management**.
+The bot should help customers explore vehicles, view available inventory near their ZIP code, and
+schedule test drives while maintaining a natural and contextual conversation flow. 
+provide suggestion and be proactive what might user want to do as a next step
+
+---
+
+### 🧠 **Application Summary**
+
+Build a **LangChain-based ReAct Agent Framework** integrated with multiple tools and a Streamlit UI.
+The system should combine **LLM reasoning**, **tool calling**, **database access**, 
+and **memory persistence**.
+
+The AI should:
+
+* Understand user queries about Toyota cars.
+* Fetch real-time info via **Serper API** (for specs, variant of same car which user select whi, etc.).
+* Query internal **SQLite DB inventory** for available vehicles near the customer’s ZIP code.
+* Maintain **contextual memory** (model, variant, location, user preferences).
+* Help the user schedule test drives with a structured form.
+* Send automated **email notifications** to both customer and dealer.
+* Allow an **admin dashboard** to manage test drives and inventory.
+
+---
+
+### 🧩 **Core Functional Modules**
+
+1. **`main.py`**
+
+   * Initialize LangChain agent with ReAct framework.
+   * Load tools:
+
+     * `serper_tool` → for Google Serper API queries.
+     * `db_tool` → for querying SQLite inventory.
+     * `email_tool` → for sending confirmation and dealer notifications.
+     * `save_booking_tool` → for saving test drive info in DB.
+   * Define and pass the `system_prompt` guiding the Toyota AI agent’s personality and workflow.
+   * Maintain conversational memory (model, variant, ZIP, user preferences).
+   * Route user queries to tools based on LLM reasoning.
+   * provide suggestion and be proactive message what might user want to do as a next step
+
+2. **`ui.py`**
+
+   * Build a **Streamlit** chat interface.
+   * Collect initial **customer information** (name, email, phone, ZIP, city, car model, variant).
+   * Maintain **session memory** for conversation continuity.
+   * show vechile information in cards with test schdule drive button enable only  car avaible in inventory
+   * When the agent suggests a test drive or user click on test drive button, show a **dynamic scheduling form**:
+
+     * Prefilled customer details (editable)
+     * Date/time picker (`st.date_input`, `st.time_input`)
+     * Special request text box
+     * Submit button → triggers `save_booking_tool`
+   * Show responses and suggestions conversationally.
+   * Provide “Schedule Test Drive” button when the agent recommends it.
+
+3. **`database_setup.py`**
+
+   * Define and create following SQLite tables:
+
+     * **Dealership** (dealership_id, dealership_name, city, zipcode, address)
+     * **Salesperson** (salesperson_id, salesperson_name, email, phone, dealership_id)
+     * **Vehicle** (id, make, model, trim, color, rate, features [JSON])
+     * **Inventory** (id, vehicle_id, dealership_id, available_status)
+     * **Customer** (customer_id, customer_name, email, phone, zipcode)
+     * **TestDrive** (id, customer_id, dealership_id, salesperson_id, date, time, special_request, status)
+     * **Feedback** (id, testdrive_id, feedback [JSON], overall_experience)
+   * Include mock Toyota inventory for North America.
+   * Provide DB connection utilities (`get_connection`, `query_db`, `insert_data`, etc.)
+
+4. **`admin_dashboard.py`**
+
+   * Streamlit-based admin panel.
+   * Allow viewing:
+
+     * Inventory by dealership and status.
+     * Scheduled test drives (Upcoming, Completed, No-show).
+   * Allow updates to test drive status (complete, reschedule, cancel).
+   * On status change:
+
+     * Send appropriate email notifications.
+     * If status = “Completed”, trigger feedback form for customer. on mail will relvant quest and his test  drive experience with car feature 
+   * Show summary stats and charts (optional).
+
+---
+
+### 📬 **Email Workflow**
+
+* On booking confirmation:
+
+  * **Customer Email:** Thank-you + schedule confirmation (model, variant, dealership, date/time, etc.)
+  * **Dealer Email:** Customer info + car details + schedule info.
+* On status change:
+
+  * **No-show/Cancelled:** Notify customer politely.
+  * **Completed:** Send feedback request form.
+
+---
+
+### 🧠 **Agent Behavior (System Prompt Summary)**
+
+The LLM acts as a **Toyota AI Sales Agent** that:
+
+* Only discusses Toyota vehicles.
+* Greets and gathers customer preferences.
+* Uses tools intelligently (Serper API, DB search, email, etc.).
+* Maintains context until explicitly changed.
+* Suggests test drives proactively.
+* Avoids hallucinations — always use verified data.
+* Responds in a friendly, confident, and professional tone.
+* generate professional emails automatically.
