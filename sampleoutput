@@ -1,0 +1,129 @@
+
+We’ll simulate a **realistic conversation** between a **Toyota AI Sales Agent** and a **customer** named *Rahul*.
+
+This agent has the following **tools** integrated in the background:
+
+* **Serper Tool:** Fetches latest Toyota car details, trims, and feature highlights.
+* **Inventory Tool:** Checks car availability in local dealerships by ZIP code.
+* **Feature Match Tool:** Suggests similar models if the preferred one isn’t available.
+* **Test Drive Scheduler:** Books test drives at preferred date/time.
+* **Email Generator Tool:** Creates professional confirmation emails for both customer and dealer.
+
+---
+
+### 💬 **Simulated Conversation: Toyota AI Agent with Customer Rahul**
+
+**Agent (AI Bot):**
+Hi Rahul! 👋 Welcome to Toyota SmartDrive Assistant.
+I can help you explore Toyota cars, compare features, check availability near you, and even schedule a test drive.
+What kind of car are you looking for today — a sedan, SUV, or hybrid?
+
+---
+
+**Customer (Rahul):**
+Hey! I’m looking for a stylish SUV, maybe something like the Toyota RAV4 Hybrid.
+
+---
+
+**Agent:**
+Great choice, Rahul! 🚙
+The **Toyota RAV4 Hybrid 2025** is known for its 2.5L engine, 219 hp, and an impressive 41 MPG city mileage.
+Let me quickly check which trims are available near your ZIP code — may I have your ZIP?
+
+---
+
+**Customer:**
+Sure, it’s 90012.
+
+---
+
+**Agent (calls inventory_tool):**
+Thanks! Checking dealerships near 90012...
+
+✅ The **RAV4 Hybrid XLE** and **RAV4 Hybrid Limited** are available at **Toyota Downtown LA** and **North Hollywood Toyota**.
+However, the **RAV4 Hybrid XSE** (sport trim) isn’t currently in stock.
+
+Would you like to explore one of the available trims, or should I show similar models with comparable features?
+
+---
+
+**Customer:**
+Hmm, I was more interested in the XSE because of its sporty look.
+Any other SUV with similar styling?
+
+---
+
+**Agent (calls serper_tool + feature_match_tool):**
+Got it 👍 The **Toyota Venza XLE** has a similar sporty design, panoramic roof, and hybrid powertrain.
+It’s slightly more premium and available at your nearest dealer.
+Would you like me to compare it with the RAV4 XSE for you?
+
+---
+
+**Customer:**
+Yes, please.
+
+---
+
+**Agent:**
+Here’s a quick comparison:
+
+| Feature      | RAV4 XSE            | Venza XLE         |
+| ------------ | ------------------- | ----------------- |
+| Engine       | 2.5L Hybrid         | 2.5L Hybrid       |
+| Mileage      | 40 MPG              | 39 MPG            |
+| Drive        | AWD                 | AWD               |
+| Interior     | Sporty Black SofTex | Premium SofTex    |
+| Infotainment | 10.5” Touchscreen   | 12.3” Touchscreen |
+
+The **Toyota Venza XLE** and **RAV4 XSE** are both great choices, Rahul!
+Would you like to **schedule a test drive for either one**, or are you **interested in exploring some other cars too?**
+
+---
+
+**Case 1 – User chooses to schedule a test drive:**
+**Customer:**
+Let’s go ahead and schedule the test drive for the Venza XLE.
+
+---
+
+**Agent (UI action + background logic):**
+Sure thing, Rahul! 🚗
+Please fill out this quick form so I can confirm your test drive:
+
+**📝 Test Drive Form**
+
+* **Full Name:** *(auto-filled if known)*
+* **Email Address:**
+* **Phone Number:**
+* **Select Car:** *(dropdown with similar cars, e.g., Venza XLE, RAV4 Hybrid XLE, Highlander Hybrid)*
+* **Preferred Date & Time:** *(datetime picker)*
+
+Once Rahul submits the form 👇
+→ The **test_drive_tool** confirms the booking.
+→ The **generate_email_tool** automatically creates and sends emails to both customer and dealer (in the background).
+→ No further user confirmation needed.
+
+---
+
+**Agent (after submission):**
+ Great, Rahul! Your test drive has been successfully scheduled.
+I’ve shared all details with the dealership and sent a confirmation email to you as well.
+Thank you! Would you like to explore accessories or finance options next?
+
+---
+
+**Case 2 – User says they want to see other cars:**
+**Customer:**
+I’d like to explore some other cars too.
+
+---
+
+**Agent (calls serper_tool + inventory_tool):**
+No problem! 😊 Based on your interest in hybrid SUVs, here are a few more great options near your area:
+
+* **Toyota Highlander Hybrid** – spacious, family-friendly, AWD
+* **Toyota Corolla Cross Hybrid** – compact yet efficient
+* **Toyota RAV4 LE Hybrid** – great value for money
+
+Which one would you like to know more about?
